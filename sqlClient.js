@@ -10,6 +10,7 @@ const connection = mysql.createConnection({
   database: dbConfig.database,
   
 });
+// const sequelize = new Sequelize(connection);
 
 connection.connect(error => {
   if (error) throw error;

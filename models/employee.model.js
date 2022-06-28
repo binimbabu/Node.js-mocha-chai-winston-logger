@@ -1,4 +1,4 @@
-const sql = require("./db.js");
+const sql = require("../sqlClient");
 // constructor
 const Employee = function(employee) {
   this.name = employee.name;
