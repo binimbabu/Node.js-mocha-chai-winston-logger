@@ -1,28 +1,27 @@
-const Attendance = require("../models/attendance.model");
-// Create and Save a new Tutorial
+const Attendance = require("../models/attendance.model.js");
+
 exports.create = (req, res) => {
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
   }
-  // Create a Tutorial
+
   const attendance = new Attendance({
-    empId: req.body.empId,
+    id: req.body.id,
     present_Date: req.body.present_Date,
-    present: req.body.present
+    present: req.body.present,
   });
   // Save Tutorial in the database
   Attendance.create(attendance, (err, data) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the attendance."
+          err.message || "Some error occurred while creating the Attendance."
       });
     else res.send(data);
   });
 };
-
 
 
 
