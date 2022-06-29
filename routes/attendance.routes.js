@@ -4,6 +4,7 @@ module.exports = app => {
     // Create a new Tutorial
     router.post("/", attendance.create);
     router.get('/attend', attendance.employeeListAttendence);
+    router.get('/view', attendance.employeeViewAttendence);
     app.use('/api/attendance', router);
   
     

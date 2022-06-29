@@ -54,5 +54,34 @@ exports.employeeListAttendence = (req, res) => {
   })
 
 }
+exports.viewEmployeeAttendence =  (empData,callback)=>{
+  Attendance.viewEmpAttendence(empData,function(err,data){
+      if(err)
+          callback(err,null);
+      else
+          callback(null,data)
+  });
+}
 
+exports.employeeViewAttendence = (req, res) => {
+  let empObject = {
+    id:1,
+    offset: req.body.offset,
+    limit:req.body.limit
+  };
+ 
+  this.viewEmployeeAttendence(empObject, function (err, data) {
+  
+      if (data) {
+          let response = {};
+          response.employeedata = data
+          res.send(response);
+      } else {
+          let errorResp = {
+              message: 'Error'
+          };
+          res.send(errorResp)
+      }
+  })
 
+}

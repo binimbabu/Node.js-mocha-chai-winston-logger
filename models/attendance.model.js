@@ -36,4 +36,19 @@ Attendance.listAllEmpAttendence = (empData, callback) => {
       })
 }
 
+
+Attendance.viewEmpAttendence = (empData, callback) => {
+  let query = `select * from attendance where id = ${empData.id}
+   limit ${empData.limit} offset ${empData.offset}`;
+  sql.sequelize.query(query,
+      { type: sql.sequelize.QueryTypes.SELECT })
+      .then(function (result) {
+          return callback(null,result);
+
+      }).catch((err) => {
+       
+          return callback(false, null)
+      })
+}
+
 module.exports = Attendance;
