@@ -23,6 +23,36 @@ exports.create = (req, res) => {
   });
 };
 
+exports.lisAllEmployeeAttendence =  (empData,callback)=>{
+  Attendance.listAllEmpAttendence(empData,function(err,data){
+      if(err)
+          callback(err,null);
+      else
+          callback(null,data)
+  });
+  
+}
 
+exports.employeeListAttendence = (req, res) => {
+
+    let empObject = {
+      present_Date: req.body.present_Date,
+    
+    };
+ 
+  this.lisAllEmployeeAttendence(empObject, function (err, data) {
+      if (data) {
+          let response = {};
+          response.employeedata = data;
+          res.send(response);
+      } else {
+          let errorResp = {
+              message: 'Error'
+          };
+          res.send(errorResp)
+      }
+  })
+
+}
 
 

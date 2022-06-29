@@ -69,12 +69,12 @@ exports.listEmployee =  (empData,callback)=>{
 }
 
 exports.employeeList = async (req, res) => {
-  //let empObject = req.body;
+ 
   let empObject = {
     pageNumber: req.body.pageNumber,
     limit:req.body.limit
   };
-  // let response =  
+  
   this.listEmployee(empObject, function (err, data) {
       if (data) {
           let response = {};
