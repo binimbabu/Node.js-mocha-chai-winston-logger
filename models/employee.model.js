@@ -94,6 +94,22 @@ Employee.listEmployeeCount = (doc, callback) => {
 
 }
 
+Employee.employeeSearch = (empData, callback) => {
+  // esClient.create
+  let query = ` select * from employee where ${empData.columnName} like '%${empData.searchText}%'`;
+  dbModels.sequelize.query(query,
+      {
+          type: dbModels.sequelize.QueryTypes.SELECT
+      })
+      .then(function (result) {
+          // if(result.length > 0)
+          return callback(null,result);
+
+      }).catch((err) => {
+          return callback(false, null)
+      })
+}
+
 
 
 

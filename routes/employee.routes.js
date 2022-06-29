@@ -13,7 +13,8 @@ module.exports = app => {
  
   router.get("/", employees.employeeList);
   
- 
+  router.post('/search', employees.employeeSearch);
+
   app.use('/api/employee', router);
 
   

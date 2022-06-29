@@ -92,6 +92,35 @@ exports.employeeList = async (req, res) => {
 }
 
 
+exports.searchEmployee =  (empData,callback)=>{
+  Employee.employeeSearch(empData,function(err,data){
+      if(err)
+          callback(err,null);
+      else
+          callback(null,data)
+  });
+  
+}
+
+exports.employeeSearch = (req, res) => {
+  let empObject = {
+    searchText : req.body.searchText,
+    columnName: req.body.columnName
+  }
+  // let response =  
+  this.searchEmployee(empObject, function (err, data) {
+      if (data) {
+          let response = {};
+          response.employeedata = data
+          res.send(response);
+      } else {
+          let errorResp = {
+              message: 'Error'
+          };
+          res.send(errorResp)
+      }
+  })
+}
 
 
 
