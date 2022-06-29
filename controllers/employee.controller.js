@@ -1,5 +1,5 @@
 const Employee = require("../models/employee.model");
-// Create and Save a new Tutorial
+
 exports.create = (req, res) => {
   if (!req.body) {
     res.status(400).send({
@@ -25,17 +25,17 @@ exports.create = (req, res) => {
   });
 };
 
-exports.findAll = (req, res) => {
-  const name = req.query.name;
-  Employee.getAll(name, (err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving Employee."
-      });
-    else res.send(data);
-  });
-};
+// exports.findAll = (req, res) => {
+//   const name = req.query.name;
+//   Employee.getAll(name, (err, data) => {
+//     if (err)
+//       res.status(500).send({
+//         message:
+//           err.message || "Some error occurred while retrieving Employee."
+//       });
+//     else res.send(data);
+//   });
+// };
 
 exports.findOne = (req, res) => {
   Employee.findById(req.params.id, (err, data) => {
@@ -52,6 +52,46 @@ exports.findOne = (req, res) => {
     } else res.send(data);
   });
 };
+
+
+exports.listEmployee =  (empData,callback)=>{
+  Employee.listEmployeeCount(empData,function(err,empCount){
+    Employee.listEmployee(empData,function(error,empInfor){
+          let result = [];
+          result = result.concat(empCount,empInfor);
+          if(error)
+              callback(error,null)
+          else   
+              callback(null,result)
+      });
+  });
+  
+}
+
+exports.employeeList = async (req, res) => {
+  //let empObject = req.body;
+  let empObject = {
+    pageNumber: req.body.pageNumber,
+    limit:req.body.limit
+  };
+  // let response =  
+  this.listEmployee(empObject, function (err, data) {
+      if (data) {
+          let response = {};
+          response.employeedata = data
+          res.send(response);
+      } else {
+          let errorResp = {
+              message: 'Error'
+          };
+          res.send(errorResp)
+      }
+  })
+  // res.send(response);
+
+}
+
+
 
 
 
