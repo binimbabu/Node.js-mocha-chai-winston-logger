@@ -25,32 +25,39 @@ exports.create = (req, res) => {
   });
 };
 
-// exports.findAll = (req, res) => {
-//   const name = req.query.name;
-//   Employee.getAll(name, (err, data) => {
-//     if (err)
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while retrieving Employee."
-//       });
-//     else res.send(data);
-//   });
-// };
+exports.findAll = (req, res) => {
+  return new Promise((resolve, reject)=>{
+  const name = req.query.name;
+  Employee.getAll(name, (err, data) => {
+    if (err){
+      reject(res);
+    }
+      
+    else {
+      resolve(res);
+      res.send(data);
+    }
+  });
+});
+};
 
 exports.findOne = (req, res) => {
+  return new Promise((resolve, reject)=>{
   Employee.findById(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found Employee with id ${req.params.id}.`
-        });
+        reject(res);
+        
       } else {
-        res.status(500).send({
-          message: "Error retrieving Employee with id " + req.params.id
-        });
+        reject(res);
+        
       }
-    } else res.send(data);
+    } else {
+      resolve(res);
+      
+    }
   });
+});
 };
 
 
@@ -93,12 +100,21 @@ exports.employeeList = async (req, res) => {
 
 
 exports.searchEmployee =  (empData,callback)=>{
+  return new Promise((resolve, reject)=>{
   Employee.employeeSearch(empData,function(err,data){
       if(err)
-          callback(err,null);
-      else
-          callback(null,data)
+      {
+        reject(err);
+        callback(err,null);
+      }
+          
+      else{
+       callback(null,data)
+       resolve(null,data);
+      }
+          
   });
+});
   
 }
 
