@@ -37,6 +37,9 @@ Attendance.listAllEmpAttendence = (empData, callback) => {
 }
 
 
+
+
+
 Attendance.viewEmpAttendence = (empData, callback) => {
   let query = `select * from attendance where id = ${empData.id}
    limit ${empData.limit} offset ${empData.offset}`;

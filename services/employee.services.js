@@ -111,7 +111,25 @@ Employee.employeeSearch = (empData, callback) => {
 }
 
 
+Employee.addEmployee = (empData, callback) => {
 
+  let query = `insert into employee 
+  values 
+  ('${empData.id}',
+  '${empData.name}',
+      '${empData.email}',
+      '${empData.mobile_number}',
+      '${empData.joining_date}',
+      '${empData.role}')`;
+  dbModels.sequelize.query(query,
+      { type: dbModels.sequelize.QueryTypes.INSERT })
+      .then(function (result) {
+          // if(result.length > 0)
+          return callback(null, result);
 
+      }).catch((err) => {
+          return callback(false, null)
+      })
+}
 
 module.exports = Employee;

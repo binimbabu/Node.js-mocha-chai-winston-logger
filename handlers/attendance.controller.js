@@ -1,4 +1,4 @@
-const Attendance = require("../models/attendance.model.js");
+const Attendance = require("../services/attendance.services.js");
 
 exports.create = (req, res) => {
   if (!req.body) {
@@ -24,13 +24,21 @@ exports.create = (req, res) => {
 };
 
 exports.lisAllEmployeeAttendence =  (empData,callback)=>{
+  return new Promise((resolve, reject)=>{
   Attendance.listAllEmpAttendence(empData,function(err,data){
       if(err)
-          callback(err,null);
-      else
-          callback(null,data)
+      {
+        reject(err);
+        callback(err,null);
+      }
+         
+      else{
+        resolve(data);
+        callback(null,data)
+      }
+          
   });
-  
+}); 
 }
 
 exports.employeeListAttendence = (req, res) => {
