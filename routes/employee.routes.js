@@ -8,11 +8,11 @@ module.exports = app => {
  
   router.get("/", employees.employeeList);
   
-  router.post('/search', function(req, res){
+  router.post('/search', 
     employees.employeeSearch
-  });
-  router.post('/create', function(req, res){
-    employees.employeeCreate});
+  );
+  router.post('/create', 
+    employees.employeeCreate);
   app.use('/api/employee', router);
 
   
