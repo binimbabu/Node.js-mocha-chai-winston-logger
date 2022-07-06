@@ -2,7 +2,7 @@ module.exports = app => {
   const employees = require("../handlers/employee.controller.js");
   var router = require("express").Router();
   // Create a new Tutorial
-  router.post("/", function(req, res){employees.create});
+
  
 
  
