@@ -13,17 +13,17 @@ const Employee = function(employee) {
   this.joining_date = employee.joining_date;
   this.role = employee.role;
 };
-Employee.create = (newEmployee, result) => {
-  sql.query("INSERT INTO employee SET ?", newEmployee, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-    console.log("created tutorial: ", { id: res.insertId, ...newEmployee });
-    result(null, { id: res.insertId, ...newEmployee });
-  });
-};
+// Employee.create = (newEmployee, result) => {
+//   sql.query("INSERT INTO employee SET ?", newEmployee, (err, res) => {
+//     if (err) {
+//       console.log("error: ", err);
+//       result(err, null);
+//       return;
+//     }
+//     console.log("created tutorial: ", { id: res.insertId, ...newEmployee });
+//     result(null, { id: res.insertId, ...newEmployee });
+//   });
+// };
 Employee.findById = (id, result) => {
   sql.query(`SELECT * FROM employee WHERE id = ${id}`, (err, res) => {
     if (err) {
@@ -55,64 +55,9 @@ Employee.getAll = (id, result) => {
 };
 
 
-Employee.listEmployee = (doc, callback) => {
- 
-
-  let query = ` 
-          select * from employee 
-          limit ${doc.limit} 
-          offset ${doc.pageNumber} 
-  `;
-  sql.sequelize.query(query,
-      { type: dbModels.sequelize.QueryTypes.SELECT })
-      .then(function (result) {
-          // if(result.length > 0)
-          return callback(null,result);
-
-      }).catch((err) => {
-          return callback(false, null)
-      })
-
-}
-
-Employee.listEmployeeCount = (doc, callback) => {
-  // esClient.create
-  let query = ` 
-          select count(*) from employee  
-          limit ${doc.limit} 
-          offset ${doc.pageNumber} 
-  `;
-  dbModels.sequelize.query(query,
-      { type: dbModels.sequelize.QueryTypes.SELECT })
-      .then(function (result) {
-          // if(result.length > 0)
-          return callback(null,result[0]);
-
-      }).catch((err) => {
-          return callback(false, null)
-      })
-
-}
-
-Employee.employeeSearch = (empData, callback) => {
-  // esClient.create
-  let query = ` select * from employee where ${empData.columnName} like '%${empData.searchText}%'`;
-  dbModels.sequelize.query(query,
-      {
-          type: dbModels.sequelize.QueryTypes.SELECT
-      })
-      .then(function (result) {
-          // if(result.length > 0)
-          return callback(null,result);
-
-      }).catch((err) => {
-          return callback(false, null)
-      })
-}
 
 
-Employee.addEmployee = (empData, callback) => {
-
+module.exports.addEmployee = (empData, callback) => {
   let query = `insert into employee 
   values 
   ('${empData.id}',
@@ -132,4 +77,71 @@ Employee.addEmployee = (empData, callback) => {
       })
 }
 
-module.exports = Employee;
+module.exports.employeeSearch = (empData, callback) => {
+  // esClient.create
+  let query = ` select * from employee where ${empData.columnName} like '%${empData.searchText}%'`;
+  dbModels.sequelize.query(query,
+      {
+          type: dbModels.sequelize.QueryTypes.SELECT
+      })
+      .then(function (result) {
+          // if(result.length > 0)
+          return callback(null,result);
+
+      }).catch((err) => {
+          return callback(false, null)
+      })
+}
+
+
+module.exports.listEmployeeCount= (doc, callback) => {
+  // esClient.create
+  let query = ` 
+          select count(*) from employee  
+          limit ${doc.limit} 
+          offset ${doc.pageNumber} 
+  `;
+  dbModels.sequelize.query(query,
+      { type: dbModels.sequelize.QueryTypes.SELECT })
+      .then(function (result) {
+          // if(result.length > 0)
+          return callback(null,result[0]);
+
+      }).catch((err) => {
+          return callback(false, null)
+      })
+
+}
+
+module.exports.listEmployee= (doc, callback) => {
+ 
+
+  let query = ` 
+          select * from employee 
+          limit ${doc.limit} 
+          offset ${doc.pageNumber} 
+  `;
+  sql.sequelize.query(query,
+      { type: dbModels.sequelize.QueryTypes.SELECT })
+      .then(function (result) {
+          // if(result.length > 0)
+          return callback(null,result);
+
+      }).catch((err) => {
+          return callback(false, null)
+      })
+
+}
+
+
+module.exports.create = (newEmployee, result) => {
+  sql.query("INSERT INTO employee SET ?", newEmployee, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    console.log("created tutorial: ", { id: res.insertId, ...newEmployee });
+    result(null, { id: res.insertId, ...newEmployee });
+  });
+};
