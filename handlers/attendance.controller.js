@@ -1,64 +1,5 @@
-const Attendance = require("../services/attendance.services.js");
-
-// exports.create = (req, res) => {
-//   if (!req.body) {
-//     res.status(400).send({
-//       message: "Content can not be empty!"
-//     });
-//   }
-
-//   const attendance = new Attendance({
-//     id: req.body.id,
-//     present_Date: req.body.present_Date,
-//     present: req.body.present,
-//   });
-//   // Save Tutorial in the database
-//   Attendance.create(attendance, (err, data) => {
-//     if (err)
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while creating the Attendance."
-//       });
-//     else {
-//       console.log("successful");
-//       res.status(200).send({
-//         message:
-//           "creating the Attendance."
-//       });
-//       // res.send(data);
-//     }
-//   });
-// };
-
-// exports.create =  (req, res) => {
-//   let empObject = {
-//     id: req.body.id,
-//     present_Date: req.body.present_Date,
-//     present: req.body.present,
-//   }
-//    Attendance.create(empObject, function (err, data) {
-//     if (data) {
-//       let response = {};
-//       response.employeedata = data;
-
-//     } else {
-//       let errorResp = {
-//         message: 'Error'
-//       };
-//       res.send(errorResp)
-//     }
-//   });
-// }
-
-
-
-
-
-
-
-
-
-
+// const Attendance = require("../services/attendance.services");
+const attendance = require("../services/attendance.services");
 
 exports.create = async (req, res) => {
   let empObject = {
@@ -66,7 +7,7 @@ exports.create = async (req, res) => {
     present_Date: req.body.present_Date,
     present: req.body.present,
   };
-  Attendance.create(empObject, function (err, data) {
+  attendance.create(empObject, function (err, data) {
       if (data) {
         let response = {};
         response.employeedata = data;
@@ -116,7 +57,7 @@ exports.create = async (req, res) => {
 
 exports.lisAllEmployeeAttendence = (empData, callback) => {
   return new Promise((resolve, reject) => {
-    Attendance.listAllEmpAttendence(empData, function (err, data) {
+    attendance.listAllEmpAttendence(empData, function (err, data) {
       if (err) {
         reject(err);
         callback(err, null);
@@ -156,18 +97,24 @@ exports.employeeListAttendence = (req, res) => {
 }
 exports.viewEmployeeAttendence = (empData, callback) => {
   return new Promise((resolve, reject) => {
-    Attendance.viewEmpAttendence(empData, function (err, data) {
-      if (err) {
-        callback(err, null);
-        reject(err);
-      }
+    try{
+      attendance.viewEmpAttendence(empData, function (err, data) {
+        if (err) {
+          callback(err, null);
+          reject(err);
+        }
+  
+        else {
+          callback(null, data);
+          resolve(data);
+        }
+      });
+    }
+    catch(error){
+      console.log(error, "eror")
+    }
 
-      else {
-        callback(null, data);
-        resolve(data);
-      }
-
-    });
+    
   });
 }
 
