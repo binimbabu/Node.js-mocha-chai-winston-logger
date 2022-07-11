@@ -1,28 +1,24 @@
 
 const attendance = require("../services/attendance.services");
 
+const logger = require('../logger/logger');
 
 
 
-
-exports.create =  (req, res) => {
+exports.create = async (req, res) => {
   try{
    let empObject = {
      id: req.body.id,
      presentDate: req.body.presentDate,
      present: req.body.present,
    };
-   const output = attendance.create(empObject);
-   output.then((value)=>{
-    return res.send({
-      status: 200,
-      message: "Successfully marked attendance of an employee",
-      data: value
-    });
-   })
+   const output = await attendance.create(empObject);
+   logger.info("Successfully created");
+   return res.send({status:200,  message: "Successful", data:output});
    
   }
    catch(error){
+    logger.error("Error in creating attendance");
     return res.send({
       status: 500,
       message: "Error in marking attendance of an employee"
@@ -35,21 +31,20 @@ exports.create =  (req, res) => {
 
 
 
-exports.employeeListAttendence =  (req, res) => {
+exports.employeeListAttendence = async (req, res) => {
 try{
   let empObject = {
     presentDate: req.body.presentDate,
 
   };
-  const output = attendance.listAllEmpAttendence(empObject);
-  output.then(value => {
-    return res.send({status:200, message:"successfully listed attendance", data:value});
-  }).catch(err => {
-    console.log(err);
-  });
+  const output = await attendance.listAllEmpAttendence(empObject);
+  logger.info("Successfully listing attendance of all employees");
+   return res.send({status:200, message: "Successful listing attendance of all employees",  data:output});
+
  
 }
 catch(error){
+  logger.error("Error in listing attendance of all employees");
   return res.send({status:500, message:"Error in listing attendance of all employees"})
 }
  
@@ -59,21 +54,20 @@ catch(error){
 }
 
 
-exports.employeeViewAttendence = (req, res) => {
+exports.employeeViewAttendence = async (req, res) => {
   try{
     let empObject = {
       id: req.body.id,
       offset: req.body.offset,
       limit: req.body.limit
     };
-    const output = attendance.viewEmpAttendence(empObject);
-    output.then((value)=>{
-      console.log(value, "value")
-      return res.send({status:200, message:"Success listing attendance details of an employee", data:value})
-    })
+    const output = await attendance.viewEmpAttendence(empObject);
+    logger.info("Successfully listing attendance details of an employee");
+    return res.send({status:200, message: "Successful listing attendance details of an employee", data:output});
 
   }
   catch(error){
+    logger.error("Error listing attendance details of an employee");
     return res.send({status:500, message:"Error listing attendance details of an employee"});
     }
   

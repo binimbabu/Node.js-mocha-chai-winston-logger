@@ -28,7 +28,7 @@ module.exports.create = async (params, callback)=>{
 
 
 module.exports.listAllEmpAttendence = async(params, callback) => {
-  // esClient.create
+ 
   let query = ` select * from attendance where presentDate= '${params.presentDate}'`;
   const result = await sql.sequelize.query(query,
     {

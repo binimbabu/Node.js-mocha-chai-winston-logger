@@ -1,19 +1,20 @@
 const Employee = require("../services/employee.services");
+const logger = require('../logger/logger');
 
-
-exports.employeeList =  (req, res) => {
+exports.employeeList = async (req, res) => {
   try{
     let empObject = {
       pageNumber: req.body.pageNumber,
       limit:req.body.limit
     };
-     const output = Employee.listEmployee(empObject);
-     output.then((value)=>{
-       res.send({status:200, message:"Successfully retrieved values", data:value});
-     }) 
+     const output = await Employee.listEmployee(empObject);
+     logger.info("Successfully listed");
+     return res.send({status:200,  message: "Successful", data:output});
     
   }catch(error){
+    logger.error("Error in retrieving employee listing");
     res.send({status:500, message:"Error in retrieving employee listing"});
+   
   }
   
 }
@@ -21,19 +22,19 @@ exports.employeeList =  (req, res) => {
 
 
 
-exports.employeeSearch = (req, res) => {
+exports.employeeSearch = async (req, res) => {
   try{
     let empObject = {
       searchText : req.body.searchText,
       columnName: req.body.columnName
     };
   
-    const output = Employee.employeeSearch(empObject);
-    output.then((value)=>{
-      res.send({status:200, message:"Employee search successful", data:value});
-    })
+    const output = await Employee.employeeSearch(empObject);
+    logger.info("Successfully searched");
+    return res.send({status:200,  message: "Successful", data:output});
   }
   catch(error){
+    logger.error("Error in employee search");
     res.send({status:500, message:"Error in employee search"});
   }
  
@@ -41,7 +42,7 @@ exports.employeeSearch = (req, res) => {
 
 
 
-exports.employeeCreate =  (req, res) => {
+exports.employeeCreate = async (req, res) => {
   try{
     let empObject = {
       id:req.body.id,
@@ -51,12 +52,12 @@ exports.employeeCreate =  (req, res) => {
       joining_date: req.body.joining_date,
       role: req.body.role
     }
-    const output = Employee.addEmployee(empObject);
-    output.then((value)=>{
-      res.send({status:200, message:"Success created employee",data: value });
-    })
+    const output = await Employee.addEmployee(empObject);
+    logger.info("Successfully created");
+    return res.send({status:200,  message: "Successful", data:output});
   }
   catch(error){
+    logger.error("Error in creating employee");
     res.send({status:500, message:"Error in creating employee" });
   }
   
