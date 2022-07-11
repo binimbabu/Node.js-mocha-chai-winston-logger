@@ -40,7 +40,6 @@ module.exports.employeeSearch = async (empData, callback) => {
 
 
 module.exports.listEmployeeCount= async (doc) => {
-  // esClient.create
   let query = ` 
           select count(*) from employee  
           limit ${doc.limit} 

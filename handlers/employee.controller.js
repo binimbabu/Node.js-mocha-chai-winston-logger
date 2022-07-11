@@ -7,15 +7,13 @@ exports.employeeList =  (req, res) => {
       pageNumber: req.body.pageNumber,
       limit:req.body.limit
     };
-    
-    Employee.listEmployeeCount(empObject)
      const output = Employee.listEmployee(empObject);
      output.then((value)=>{
        res.send({status:200, message:"Successfully retrieved values", data:value});
      }) 
     
   }catch(error){
-    res.send({status:500, message:error.message});
+    res.send({status:500, message:"Error in retrieving employee listing"});
   }
   
 }
@@ -36,7 +34,7 @@ exports.employeeSearch = (req, res) => {
     })
   }
   catch(error){
-    res.send({status:500, message:error.message});
+    res.send({status:500, message:"Error in employee search"});
   }
  
 }
@@ -59,7 +57,7 @@ exports.employeeCreate =  (req, res) => {
     })
   }
   catch(error){
-    res.send({status:500, message:error.message });
+    res.send({status:500, message:"Error in creating employee" });
   }
   
 

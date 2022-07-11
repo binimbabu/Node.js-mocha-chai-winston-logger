@@ -13,16 +13,19 @@ exports.create =  (req, res) => {
      present: req.body.present,
    };
    const output = attendance.create(empObject);
-   return res.send({
-    status: 200,
-    message: "success",
-    data: output.data
-  });
+   output.then((value)=>{
+    return res.send({
+      status: 200,
+      message: "Successfully marked attendance of an employee",
+      data: value
+    });
+   })
+   
   }
    catch(error){
     return res.send({
       status: 500,
-      message: error.message
+      message: "Error in marking attendance of an employee"
     })
    }
   
@@ -32,7 +35,7 @@ exports.create =  (req, res) => {
 
 
 
-exports.employeeListAttendence = (req, res) => {
+exports.employeeListAttendence =  (req, res) => {
 try{
   let empObject = {
     presentDate: req.body.presentDate,
@@ -47,7 +50,7 @@ try{
  
 }
 catch(error){
-  return res.send({status:500, message:error.message})
+  return res.send({status:500, message:"Error in listing attendance of all employees"})
 }
  
 
@@ -66,12 +69,12 @@ exports.employeeViewAttendence = (req, res) => {
     const output = attendance.viewEmpAttendence(empObject);
     output.then((value)=>{
       console.log(value, "value")
-      return res.send({status:200, message:"Success", data:value})
+      return res.send({status:200, message:"Success listing attendance details of an employee", data:value})
     })
 
   }
   catch(error){
-    return res.send({status:500, message:error.message});
+    return res.send({status:500, message:"Error listing attendance details of an employee"});
     }
   
 }
