@@ -13,7 +13,7 @@ exports.create = async (req, res) => {
      present: req.body.present,
    };
    const output = await attendance.create(empObject);
-   logger.info("Successfully created");
+   logger.info("Successfully created" + " " + empObject.id);
    return res.send({status:200,  message: "Successful", data:output});
    
   }

@@ -1,4 +1,4 @@
-const Employee = require("../services/employee.services");
+const employee = require("../services/employee.services");
 const logger = require('../logger/logger');
 
 exports.employeeList = async (req, res) => {
@@ -7,7 +7,7 @@ exports.employeeList = async (req, res) => {
       pageNumber: req.body.pageNumber,
       limit:req.body.limit
     };
-     const output = await Employee.listEmployee(empObject);
+     const output = await employee.listEmployee(empObject);
      logger.info("Successfully listed");
      return res.send({status:200,  message: "Successful", data:output});
     
@@ -29,7 +29,7 @@ exports.employeeSearch = async (req, res) => {
       columnName: req.body.columnName
     };
   
-    const output = await Employee.employeeSearch(empObject);
+    const output = await employee.employeeSearch(empObject);
     logger.info("Successfully searched");
     return res.send({status:200,  message: "Successful", data:output});
   }
@@ -52,8 +52,8 @@ exports.employeeCreate = async (req, res) => {
       joining_date: req.body.joining_date,
       role: req.body.role
     }
-    const output = await Employee.addEmployee(empObject);
-    logger.info("Successfully created");
+    const output = await employee.addEmployee(empObject);
+    logger.info("Successfully created " + " " + empObject.id);
     return res.send({status:200,  message: "Successful", data:output});
   }
   catch(error){
