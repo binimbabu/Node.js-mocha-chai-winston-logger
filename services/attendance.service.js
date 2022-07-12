@@ -3,15 +3,6 @@ const { QueryTypes } = require('sequelize');
 var dbModels = require('../sqlClient');
 const sequelize = require('sequelize');
 const Op = sequelize.Op;
-const { query } = require('express')
-
-
-const Attendance = function (attendance) {
-  this.id = attendance.id;
-  this.present_Date = attendance.present_Date;
-  this.present = attendance.present;
-};
-
 
 
 module.exports.create = async (params)=>{

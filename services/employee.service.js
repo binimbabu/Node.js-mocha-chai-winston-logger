@@ -3,16 +3,9 @@ const { QueryTypes } = require('sequelize');
 var dbModels = require('../sqlClient');
 const sequelize = require('sequelize');
 const Op = sequelize.Op;
-const { query } = require('express')
 
-// constructor
-const Employee = function(employee) {
-  this.name = employee.name;
-  this.email = employee.email;
-  this.mobile_number = employee.mobile_number;
-  this.joining_date = employee.joining_date;
-  this.role = employee.role;
-};
+
+
 
 module.exports.addEmployee = async (empData) => {
   try{
@@ -69,8 +62,8 @@ module.exports.listEmployee= async (doc) => {
  try{
   let query = ` 
   select * from employee 
-  limit 6
-  offset 1 
+  limit ${doc.pageNumber}
+  offset ${doc.limit}
 `;
 const result = await sql.sequelize.query(query,
 { type: dbModels.sequelize.QueryTypes.SELECT })

@@ -1,5 +1,5 @@
 
-const attendance = require("../services/attendance.services");
+const attendance = require("../services/attendance.service");
 
 const logger = require('../logger/logger');
 

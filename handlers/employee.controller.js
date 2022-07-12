@@ -1,11 +1,11 @@
-const employee = require("../services/employee.services");
+const employee = require("../services/employee.service");
 const logger = require('../logger/logger');
 
 exports.employeeList = async (req, res) => {
   try{
     let empObject = {
-      pageNumber: req.body.pageNumber,
-      limit:req.body.limit
+      pageNumber: req.body.pageNumber | 1,
+      limit:req.body.limit | 6
     };
      const output = await employee.listEmployee(empObject);
      logger.info("Successfully listed");
