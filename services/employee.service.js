@@ -23,7 +23,7 @@ module.exports.addEmployee = async (empData) => {
   }
   
       catch(err){
-        logger.error("Error in inserting employee with id" + " " +empData.id );
+        logger.error(error.message  + " with id " +empData.id );
         
       }
 }
@@ -38,7 +38,7 @@ module.exports.employeeSearch = async (empData) => {
         return result;
   }
   catch(error){
-    logger.error("Error in searching employee");
+    logger.error(error.message);
   }
 }
 
@@ -55,7 +55,7 @@ const result = await dbModels.sequelize.query(query,
 return result;
   }
   catch(error){
-    logger.error("Error in listing employee");
+    logger.error(error.message);
   }
 }
 
@@ -72,7 +72,7 @@ const result = await sql.sequelize.query(query,
 return result;
  }
  catch(error){
-  logger.error("Error in listing employee");
+  logger.error(error.message);
 }
  
 }

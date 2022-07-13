@@ -12,7 +12,7 @@ try{
   return result;
 }
    catch(error){
-    logger.error("Error in retrieving attendance with present date" + params.presentDate);
+    logger.error(error.message);
    }
   };
 
@@ -28,7 +28,7 @@ module.exports.listAllEmpAttendence = async(params) => {
     return result;
   }
     catch(error){
-      logger.error("Error in retrieving attendance with present date" + params.presentDate);
+      logger.error(error.message);
     }
   }
 module.exports.viewEmpAttendence =  async (empData) =>  {
@@ -40,6 +40,6 @@ module.exports.viewEmpAttendence =  async (empData) =>  {
      return result;
   }
     catch(error){
-      logger.error("Error in retrieving attendance with id" + " " +empData.id );
+      logger.error(error.message   + " with id" +empData.id );
     }
   }
