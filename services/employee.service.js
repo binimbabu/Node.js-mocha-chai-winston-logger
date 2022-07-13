@@ -23,7 +23,7 @@ module.exports.addEmployee = async (empData) => {
   }
   
       catch(error){
-        logger.error("Error in inserting employee with id" + " " +empData.id );
+        // logger.error("Error in inserting employee with id" + " " +empData.id );
       }
 }
 
