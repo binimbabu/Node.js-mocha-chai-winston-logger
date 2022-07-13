@@ -1,10 +1,6 @@
-const sql = require("../sqlClient");
-const { QueryTypes } = require('sequelize');
-var dbModels = require('../sqlClient');
-const sequelize = require('sequelize');
-const Op = sequelize.Op;
 
-
+const logger = require('../logger/logger');
+const sqlService = require('./sqlService'); 
 
 
 module.exports.addEmployee = async (empData) => {
@@ -17,13 +13,12 @@ module.exports.addEmployee = async (empData) => {
         '${empData.mobile_number}',
         '${empData.joining_date}',
         '${empData.role}')`;
-    const result = await dbModels.sequelize.query(query,
-        { type: dbModels.sequelize.QueryTypes.INSERT })
+    const result = await sqlService.executeQueryCreateEmployee(query);
         return result;
   }
   
       catch(err){
-        logger.error(error.message  + " with id " +empData.id );
+        logger.error(err.message  + " with id " +empData.id );
         
       }
 }
@@ -31,10 +26,7 @@ module.exports.addEmployee = async (empData) => {
 module.exports.employeeSearch = async (empData) => {
   try{
     let query = ` select * from employee where ${empData.columnName} like '%${empData.searchText}%'`;
-    let result = await dbModels.sequelize.query(query,
-        {
-            type: dbModels.sequelize.QueryTypes.SELECT
-        })
+    let result = await sqlService.executeQueryEmployeeSearch(query);
         return result;
   }
   catch(error){
@@ -66,8 +58,7 @@ module.exports.listEmployee= async (doc) => {
   limit ${doc.pageNumber}
   offset ${doc.limit}
 `;
-const result = await sql.sequelize.query(query,
-{ type: dbModels.sequelize.QueryTypes.SELECT })
+const result = await sqlService.executeQuerylistEmployee(query);
 
 return result;
  }

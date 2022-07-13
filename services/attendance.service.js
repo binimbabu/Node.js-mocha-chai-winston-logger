@@ -1,14 +1,11 @@
-const sql = require("../sqlClient");
-const { QueryTypes } = require('sequelize');
-var dbModels = require('../sqlClient');
-const sequelize = require('sequelize');
-const Op = sequelize.Op;
-
+const sqlService = require('./sqlService'); 
+const logger = require('../logger/logger');
 
 module.exports.create = async (params)=>{
 try{
   let query = `insert into attendance(id,presentDate,present) values(${params.id}, '${params.presentDate}', ${params.present})`;
-  const result = await dbModels.sequelize.query(query, {type: dbModels.sequelize.QueryTypes.INSERT})
+  
+  const result = await sqlService.executeQuery(query);
   return result;
 }
    catch(error){
@@ -20,11 +17,8 @@ try{
 module.exports.listAllEmpAttendence = async(params) => {
  try{
   let query = ` select * from attendance where presentDate= '${params.presentDate}'`;
-  const result = await sql.sequelize.query(query,
-    {
-      type: dbModels.sequelize.QueryTypes.SELECT
-    })
-    
+  logger.info("Query result")
+  const result = await sqlService.executeQueryList(query);
     return result;
   }
     catch(error){
@@ -35,8 +29,7 @@ module.exports.viewEmpAttendence =  async (empData) =>  {
   try{
     let query = `select * from attendance where id = ${empData.id}
     limit ${empData.limit} offset ${empData.offset}`;
-   const result = await sql.sequelize.query(query,
-     { type: sql.sequelize.QueryTypes.SELECT });
+   const result = await sqlService.executeQueryView(query);
      return result;
   }
     catch(error){
