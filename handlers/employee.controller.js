@@ -13,6 +13,7 @@ exports.employeeList = async (req, res) => {
     
   }catch(error){
     logger.error("Error in retrieving employee listing");
+    
     res.send({status:500, message:"Error in retrieving employee listing"});
    
   }
