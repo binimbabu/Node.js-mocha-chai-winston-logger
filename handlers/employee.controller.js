@@ -1,6 +1,8 @@
 const employee = require("../services/employee.service");
 const logger = require('../logger/logger');
 
+var validator = require("email-validator");
+
 exports.employeeList = async (req, res) => {
   try {
     let empObject = {
@@ -32,7 +34,7 @@ exports.employeeSearch = async (req, res) => {
 
     const output = await employee.employeeSearch(empObject);
     logger.info("Successfully searched");
-    return res.send({ status: 200, message: "Successful", data: output });
+    return res.send({ status: 200, message: "Successful" });
   }
   catch (error) {
     logger.error("Search failed", error.message);
@@ -45,18 +47,29 @@ exports.employeeSearch = async (req, res) => {
 
 exports.employeeCreate = async (req, res) => {
   try {
-    let empObject = {
-      id: req.body.id,
-      name: req.body.name,
-      email: req.body.email,
-      mobile_number: req.body.mobile_number,
-      joining_date: req.body.joining_date,
-      role: req.body.role
+    if (validator.validate(req.body.email)) {
+      let empObject = {
+        id: req.body.id,
+        name: req.body.name,
+        email: req.body.email,
+        mobile_number: req.body.mobile_number,
+        joining_date: req.body.joining_date,
+        role: req.body.role
+      }
+      const output = await employee.addEmployee(empObject);
+      if (output) {
+        logger.info("Successfully created ");
+        return res.send({ status: 200, message: "Successful", data: output });
+      }
+      else {
+        return res.status(400).send({ success: false, message: "email and id should be unique" });
+      }
     }
-    const output = await employee.addEmployee(empObject);
-    logger.info("Successfully created " + " " + empObject.id);
-    return res.send({ status: 200, message: "Successful", data: output });
+    else {
+      return res.status(400).send({ success: false, message: "email isnt valid" });
+    }
   }
+
   catch (error) {
     logger.error("Error in creating", error.message);
     return res.status(error.statusCode).send({ success: false, message: error.message });

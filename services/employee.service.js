@@ -18,7 +18,7 @@ module.exports.addEmployee = async (empData) => {
   }
 
   catch (err) {
-    logger.error(err.message + " with id " + empData.id);
+    logger.error("Database query failed");
 
   }
 }

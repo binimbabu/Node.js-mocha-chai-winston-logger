@@ -3,7 +3,7 @@ const attendance = require("../services/attendance.service");
 
 const logger = require('../logger/logger');
 
-
+const moment = require('moment');
 
 exports.create = async (req, res) => {
   try {
@@ -13,8 +13,13 @@ exports.create = async (req, res) => {
       present: req.body.present,
     };
     const output = await attendance.create(empObject);
-    logger.info("Successfully created" + " " + empObject.id);
-    return res.send({ status: 200, message: "Successful", data: output });
+    if (output) {
+      logger.info("Successfully created" + " " + empObject.id);
+      return res.send({ status: 200, message: "Successful" });
+    }
+    else {
+      return res.status(400).send({ success: false, message: "Present Date and id mandatory" });
+    }
 
   }
   catch (error) {
@@ -30,15 +35,27 @@ exports.create = async (req, res) => {
 
 exports.employeeListAttendence = async (req, res) => {
   try {
-    let empObject = {
-      presentDate: req.body.presentDate,
+    moment(req.body.presentDate).format('MMMM d, YYYY');
+    if (moment(req.body.presentDate).format('MMMM d, YYYY')) {
+      let empObject = {
+        presentDate: req.body.presentDate,
 
-    };
-    const output = await attendance.listAllEmpAttendence(empObject);
-    logger.info("Successfully listing attendance of all employees");
-    return res.send({ status: 200, message: "Successful listing attendance of all employees", data: output });
+      };
+      const output = await attendance.listAllEmpAttendence(empObject);
+      if (output) {
+        console.log("output", output)
+        logger.info("Successfully listing attendance of all employees");
+        return res.send({ status: 200, message: "Successful listing attendance of all employees", data: output });
+      }
+      else {
+        return res.status(400).send({ success: false, message: "Should be date format yyyy-mm-dd" });
+      }
 
-
+    }
+    else {
+      logger.error("Error in date format", error.message);
+      return res.status(error.statusCode).send({ success: false, message: error.message });
+    }
   }
   catch (error) {
     logger.error("Error in listing attendance of all employees", error.message);
