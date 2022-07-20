@@ -1,7 +1,7 @@
 
 const logger = require('../logger/logger');
 const sqlService = require('./sqlService');
-
+const CustomError = require('../errors/error');
 
 module.exports.addEmployee = async (empData) => {
   try {
@@ -19,6 +19,7 @@ module.exports.addEmployee = async (empData) => {
 
   catch (err) {
     logger.error("Database query failed");
+    throw new CustomError("Id and email must be unique");
 
   }
 }

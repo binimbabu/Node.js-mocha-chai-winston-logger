@@ -4,6 +4,7 @@ const attendance = require("../services/attendance.service");
 const logger = require('../logger/logger');
 
 const moment = require('moment');
+const CustomError = require("../errors/error");
 
 exports.create = async (req, res) => {
   try {
@@ -18,6 +19,9 @@ exports.create = async (req, res) => {
       return res.send({ status: 200, message: "Successful" });
     }
     else {
+      if(error instanceof CustomError) {
+        return res.status(400).send({ success: false, message: error.message });
+      }
       return res.status(400).send({ success: false, message: "Present Date and id mandatory" });
     }
 

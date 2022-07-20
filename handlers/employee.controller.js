@@ -2,6 +2,8 @@ const employee = require("../services/employee.service");
 const logger = require('../logger/logger');
 
 var validator = require("email-validator");
+const CustomError = require("../errors/error");
+
 
 exports.employeeList = async (req, res) => {
   try {
@@ -15,6 +17,7 @@ exports.employeeList = async (req, res) => {
 
   }
   catch (error) {
+    
     logger.error("Error listing", error.message);
     return res.status(error.statusCode).send({ success: false, message: error.message });
 
@@ -45,7 +48,7 @@ exports.employeeSearch = async (req, res) => {
 
 
 
-exports.employeeCreate = async (req, res) => {
+exports.employeeCreate  = async (req, res) => {
   try {
     if (validator.validate(req.body.email)) {
       let empObject = {
@@ -57,13 +60,10 @@ exports.employeeCreate = async (req, res) => {
         role: req.body.role
       }
       const output = await employee.addEmployee(empObject);
-      if (output) {
-        logger.info("Successfully created ");
+      logger.info("Successfully created ");
         return res.send({ status: 200, message: "Successful", data: output });
-      }
-      else {
-        return res.status(400).send({ success: false, message: "email and id should be unique" });
-      }
+      
+      
     }
     else {
       return res.status(400).send({ success: false, message: "email isnt valid" });
@@ -71,6 +71,9 @@ exports.employeeCreate = async (req, res) => {
   }
 
   catch (error) {
+    if(error instanceof CustomError) {
+      return res.status(400).send({ success: false, message: error.message });
+    }
     logger.error("Error in creating", error.message);
     return res.status(error.statusCode).send({ success: false, message: error.message });
   }

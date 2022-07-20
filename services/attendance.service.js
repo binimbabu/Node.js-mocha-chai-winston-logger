@@ -10,6 +10,7 @@ module.exports.create = async (params) => {
   }
   catch (error) {
     logger.error("Connection to database failed", error.message);
+    throw new CustomError("Id and present date must be present");
   }
 };
 
