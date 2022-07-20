@@ -13,7 +13,7 @@ exports.employeeList = async (req, res) => {
     
   }
   catch(error){
-    logger.error(error.message);
+    logger.error("Error listing", error.message);
     return res.status(error.statusCode).send({success: false, message: error.message});
   
   }
@@ -35,7 +35,7 @@ exports.employeeSearch = async (req, res) => {
     return res.send({status:200,  message: "Successful", data:output});
   }
   catch(error){
-    logger.error(error.message);
+    logger.error("Search failed",error.message);
     return res.status(error.statusCode).send({success: false, message: error.message});
   }
  
@@ -58,7 +58,7 @@ exports.employeeCreate = async (req, res) => {
     return res.send({status:200,  message: "Successful", data:output});
   }
   catch(error){
-    logger.error(error.message);
+    logger.error("Error in creating", error.message);
     return res.status(error.statusCode).send({success: false, message: error.message});
   }
   

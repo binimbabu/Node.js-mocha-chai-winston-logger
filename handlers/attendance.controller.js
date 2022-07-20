@@ -18,7 +18,7 @@ exports.create = async (req, res) => {
    
   }
    catch(error){
-    logger.error(error.message);
+    logger.error("Error in creating",error.message);
     return res.status(error.statusCode).send({success: false, message: error.message});
    }
   
@@ -41,7 +41,7 @@ try{
  
 }
 catch(error){
-  logger.error(error.message);
+  logger.error("Error in listing attendance of all employees",error.message);
   return res.status(error.statusCode).send({success: false, message: error.message});
 }
  
@@ -64,7 +64,7 @@ exports.employeeViewAttendence = async (req, res) => {
 
   }
   catch(error){
-    logger.error(error.message);
+    logger.error("Error listing attendance details of an employee", error.message);
     return res.status(error.statusCode).send({success: false, message: error.message});
     }
   
