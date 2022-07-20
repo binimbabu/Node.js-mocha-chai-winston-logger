@@ -14,6 +14,7 @@ module.exports.executeQuery = async (query) => {
   }
   catch (error) {
     logger.error("Failed to get details from db", error.message);
+    throw new CustomError("Id and present date must be present");
   }
 };
 
@@ -31,6 +32,7 @@ module.exports.executeQueryList = async (query) => {
   }
   catch (error) {
     logger.error("Failed to get details from db", error.message);
+    throw new CustomError("Present date must be present");
   }
 };
 
@@ -55,8 +57,8 @@ module.exports.executeQueryView = async (query) => {
     }
     
         catch(err){
-          logger.error("Failed to get details from db " + error.message  + " with id " +empData.id );
-          
+          logger.error("Failed to get details from db ");
+        
         }
       }
 

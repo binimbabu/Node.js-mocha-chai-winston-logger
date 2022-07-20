@@ -1,5 +1,6 @@
 const sqlService = require('./sqlService');
 const logger = require('../logger/logger');
+const CustomError = require('../errors/error');
 
 module.exports.create = async (params) => {
   try {
@@ -9,7 +10,7 @@ module.exports.create = async (params) => {
     return result;
   }
   catch (error) {
-    logger.error("Connection to database failed", error.message);
+    logger.error("Connection to database failed");
     throw new CustomError("Id and present date must be present");
   }
 };
@@ -24,6 +25,7 @@ module.exports.listAllEmpAttendence = async (params) => {
   }
   catch (error) {
     logger.error("Connection to database failed", error.message);
+    throw new CustomError("Present date is mandatory");
   }
 }
 module.exports.viewEmpAttendence = async (empData) => {
