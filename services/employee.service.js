@@ -30,7 +30,7 @@ module.exports.employeeSearch = async (empData) => {
         return result;
   }
   catch(error){
-    logger.error(error.message);
+    logger.error("Connection to database failed",error.message);
   }
 }
 
@@ -47,7 +47,7 @@ const result = await dbModels.sequelize.query(query,
 return result;
   }
   catch(error){
-    logger.error(error.message);
+    logger.error("Connection to database failed",error.message);
   }
 }
 
@@ -63,7 +63,7 @@ const result = await sqlService.executeQuerylistEmployee(query);
 return result;
  }
  catch(error){
-  logger.error(error.message);
+  logger.error("Connection to database failed",error.message);
 }
  
 }

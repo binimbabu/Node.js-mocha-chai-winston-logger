@@ -9,7 +9,7 @@ try{
   return result;
 }
    catch(error){
-    logger.error(error.message);
+    logger.error("Connection to database failed",error.message);
    }
   };
 
@@ -22,7 +22,7 @@ module.exports.listAllEmpAttendence = async(params) => {
     return result;
   }
     catch(error){
-      logger.error(error.message);
+      logger.error("Connection to database failed",error.message);
     }
   }
 module.exports.viewEmpAttendence =  async (empData) =>  {
