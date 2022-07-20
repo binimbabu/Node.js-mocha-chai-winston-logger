@@ -1,8 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('mysql');
 
-module.exports = function(sequelize,DataTypes){
-    return sequelize.define('employeedetails',{
+module.exports = function (sequelize, DataTypes) {
+    return sequelize.define('employeedetails', {
         id: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -25,9 +25,9 @@ module.exports = function(sequelize,DataTypes){
         role: {
             type: DataTypes.STRING
         },
-        
-    },{
+
+    }, {
         tableName: "employee",
-        timestamps: false   
+        timestamps: false
     });
 };

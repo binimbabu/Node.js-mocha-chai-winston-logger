@@ -1,10 +1,10 @@
 
 const logger = require('../logger/logger');
-const sqlService = require('./sqlService'); 
+const sqlService = require('./sqlService');
 
 
 module.exports.addEmployee = async (empData) => {
-  try{
+  try {
     let query = `insert into employee 
     values 
     ('${empData.id}',
@@ -14,58 +14,58 @@ module.exports.addEmployee = async (empData) => {
         '${empData.joining_date}',
         '${empData.role}')`;
     const result = await sqlService.executeQueryCreateEmployee(query);
-        return result;
+    return result;
   }
-  
-      catch(err){
-        logger.error(err.message  + " with id " +empData.id );
-        
-      }
+
+  catch (err) {
+    logger.error(err.message + " with id " + empData.id);
+
+  }
 }
 
 module.exports.employeeSearch = async (empData) => {
-  try{
+  try {
     let query = ` select * from employee where ${empData.columnName} like '%${empData.searchText}%'`;
     let result = await sqlService.executeQueryEmployeeSearch(query);
-        return result;
+    return result;
   }
-  catch(error){
-    logger.error("Connection to database failed",error.message);
+  catch (error) {
+    logger.error("Connection to database failed", error.message);
   }
 }
 
 
-module.exports.listEmployeeCount= async (doc) => {
-  try{
+module.exports.listEmployeeCount = async (doc) => {
+  try {
     let query = ` 
     select count(*) from employee  
     limit 6
     offset 1
 `;
-const result = await dbModels.sequelize.query(query,
-{ type: dbModels.sequelize.QueryTypes.SELECT })
-return result;
+    const result = await dbModels.sequelize.query(query,
+      { type: dbModels.sequelize.QueryTypes.SELECT })
+    return result;
   }
-  catch(error){
-    logger.error("Connection to database failed",error.message);
+  catch (error) {
+    logger.error("Connection to database failed", error.message);
   }
 }
 
-module.exports.listEmployee= async (doc) => {
- try{
-  let query = ` 
+module.exports.listEmployee = async (doc) => {
+  try {
+    let query = ` 
   select * from employee 
   limit ${doc.pageNumber}
   offset ${doc.limit}
 `;
-const result = await sqlService.executeQuerylistEmployee(query);
+    const result = await sqlService.executeQuerylistEmployee(query);
 
-return result;
- }
- catch(error){
-  logger.error("Connection to database failed",error.message);
-}
- 
+    return result;
+  }
+  catch (error) {
+    logger.error("Connection to database failed", error.message);
+  }
+
 }
 
 
