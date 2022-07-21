@@ -9,7 +9,7 @@ exports.employeeList = async (req, res) => {
   try {
     let empObject = {
       pageNumber: req.body.pageNumber | 1,
-      limit: req.body.limit | 6
+      limit: req.body.limit | 1
     };
     const output = await employee.listEmployee(empObject);
     logger.info("Successfully listed");
@@ -37,7 +37,7 @@ exports.employeeSearch = async (req, res) => {
 
     const output = await employee.employeeSearch(empObject);
     logger.info("Successfully searched");
-    return res.send({ status: 200, message: "Successful" });
+    return res.send({ status: 200, message: "Successful" , data: output});
   }
   catch (error) {
     logger.error("Search failed", error.message);
