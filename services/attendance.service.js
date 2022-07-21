@@ -25,7 +25,7 @@ module.exports.listAllEmpAttendence = async (params) => {
   }
   catch (error) {
     logger.error("Connection to database failed", error.message);
-    throw new CustomError("Present date is mandatory");
+  
   }
 }
 module.exports.viewEmpAttendence = async (empData) => {

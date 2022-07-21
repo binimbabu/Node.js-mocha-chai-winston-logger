@@ -58,6 +58,7 @@ module.exports.executeQueryView = async (query) => {
     
         catch(err){
           logger.error("Failed to get details from db ");
+          throw new CustomError("Id and email must be unique");
         
         }
       }
